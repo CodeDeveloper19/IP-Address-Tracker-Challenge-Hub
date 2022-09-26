@@ -1,5 +1,5 @@
 import React from 'react';
-import background from '../Images/pattern-bg.png';
+// import background from '../Images/pattern-bg.png';
 import DataHook from './DataHook';
 
 export default function SearchHook() {
@@ -13,6 +13,7 @@ export default function SearchHook() {
       id: 2,
       title: "Location",
       value: "Brooklyn, NY 10001"
+      // value: "MTN NIGERIA Communication limited"
     },
     {
       id: 3,
@@ -22,22 +23,23 @@ export default function SearchHook() {
     {
       id: 4,
       title: "ISP",
-      // value: "SpaceX Starlink"
-      value: "MTN NIGERIA Communication limited"
+      value: "SpaceX Starlink"
+      // value: "MTN NIGERIA Communication limited"
     }
   ]
 
   return (
     <div className='top-part'>
-      <img src={background}></img>
-      <div className='title-container'>
+      {/* <img src={background} alt="illustration of a greater than sign"></img> */}
+      <div className='first-part'>
         <h1 className='title'>IP Address Tracker</h1>
         <form id='form'>
           <input type={"text"} id='text' placeholder='Search for any IP address or domain'/>
           <input type={"submit"} id='submit'/>
         </form>
+        <DataHook info={sampleInfo}/>
       </div>
-      <DataHook info={sampleInfo}/>
+
     </div>
   )
 }
