@@ -1,5 +1,4 @@
 .top-part{
-    height: 40%;
     max-height: 300px;
     width: 100%;
     display: flex;
@@ -23,7 +22,8 @@
 #form{
     height: 50px;
     margin-top: 30px;
-    width: 30%;
+    width: 40%;
+    min-width: 300px;
     display: flex;
     flex-direction: row;
 }
@@ -56,14 +56,39 @@
     font-weight: 500;
 }
 
-/* @media only screen and (max-width: 1000px){
+@media only screen and (max-width: 1000px){
     #text{
         font-size: 15px;
     }
     .top-part{
         max-height: 45%;
     }
+    #form{
+        height: 40px;
+    }
 }
 
-@media only screen and (max-width: 700px){
-} */
+@media only screen and (max-width: 490px){
+    .top-part{
+        top: -70px;
+    }
+
+    .title, #form{
+        position: relative;
+        top: 70px;
+    }
+}
+
+
+@media only screen and (max-width: 330px){
+    #form{
+        min-width: unset;
+        width: 90%;
+    }
+    .title{
+        word-break: break-all;
+    }
+    #root{
+        overflow: scroll;
+    }
+}
