@@ -7,8 +7,10 @@ export default function InfoHook(props) {
   return (
     <>
     <div className='info'>
-        <h2 className='Title'>{title}</h2>
-        <p className='Value'>{value}</p>
+        <div className='imaginary-box'>
+          <h2 className='Title'>{title}</h2>
+          <p className='Value'>{value}</p>
+        </div>
     </div>
     </>
   )

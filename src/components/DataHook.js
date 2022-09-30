@@ -5,11 +5,13 @@ export default function DataHook({ info }) {
   return (
     <>
       <div className='middle-part'>
-            {
-              info.map(info => {
-                return <InfoHook key={info.id} {...info} />
-              })
-            }
+        <div className='container'>
+          {
+            info.map(info => {
+              return <InfoHook key={info.id} {...info} />
+            })
+          }
+        </div>
       </div>   
     </>
   )
