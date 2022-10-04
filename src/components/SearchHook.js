@@ -49,12 +49,14 @@ const newInfo = [
 ]
 
 let L = window.L;
+let map;
 
 export default function SearchHook() {
   const [info, setUpdatedInfo] = useState(sampleInfo);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(false)
     fetchData("");
   }, [])
 
@@ -63,27 +65,37 @@ export default function SearchHook() {
     let tempvalue = document.getElementById("text").value;
     let value;
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(tempvalue)){
-      value = `&ipAddress=${tempvalue}`;
-      lookForValidDomainOrAddress(value);
+      value = `&ip=${tempvalue}`;
+      lookForValidIPAddress(value);
     } else if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(tempvalue)) {
-      value = `&domain=${tempvalue}`;
-      lookForValidDomainOrAddress(value);
+      fetch(`http://ip-api.com/json/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
+      .then(response => response.json())
+      .then(data => {
+        rewriteInfo(data.isp, data.query, "--:--", data.regionName, data.country, data.city);
+        setMap(data.lat, data.lon, data.regionName, data.country, data.city);
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
     } else {
       alert('Invalid Email Address or Domain Name');
     }
   }
 
-  const lookForValidDomainOrAddress = (value) => {
+  const lookForValidIPAddress = (value) => {
     setLoading(true);
     fetchData(value);
   }
 
   const fetchData = (ipaddress) => {
-    fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=at_f19gK99cDZ0qXPfxr4KGRA8ZSAgMC${ipaddress}`)
+    fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=6a3b77d7f8984eb4ae1518bc4c8b5e82${ipaddress}`)
     .then(response => response.json())
     .then(data => {
-      rewriteInfo(data.isp, data.ip, data.location.timezone, data.location.region, data.location.country, data.location.city);
-      setMap(data.location.lat, data.location.lng);
+      let timeZone;
+      let tempTimeZone = data.time_zone.current_time.slice(-5);
+      timeZone = [tempTimeZone.slice(0, 3), ":", tempTimeZone.slice(3)].join('');
+      rewriteInfo(data.isp, data.ip, timeZone, data.district, data.country_name, data.state_prov);
+      setMap(data.latitude, data.longitude, data.district, data.country_name, data.state_prov);
     })
     .catch(error => {
       console.log(error.message);
@@ -93,21 +105,41 @@ export default function SearchHook() {
   const rewriteInfo = (a, b, c, d, e, f) => {
     newInfo[3].value = a;
     newInfo[2].value = c;
-    newInfo[1].value = `${f}, ${d}, ${e}`;
+    if (d === ""){
+      newInfo[1].value = `${f}, ${e}`;
+    } else {
+      newInfo[1].value = `${d}, ${f}, ${e}`;
+    }
     newInfo[0].value = b;
     setUpdatedInfo([...newInfo]);
     setLoading(false);
   }
 
-  const setMap = (lat, lon) => {
-    let map = L.map('map').setView([lat, lon], 13);
+  let container = L.DomUtil.get('map');
+
+  const setMap = (lat, lon, a, b, c) => {
+    if(container){
+      map.remove();
+      SetMapPerform(lat, lon, a, b, c)
+    } else {
+      SetMapPerform(lat, lon, a, b, c);
+    }
+  }
+
+  const SetMapPerform = (lat, lon, a, b, c) => {
+    map = L.map('map').setView([lat, lon], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);  
-
-    L.marker([lat, lon]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
+    if (a === ""){
+      L.marker([lat, lon]).addTo(map)
+      .bindPopup(`${c}, ${b}`)
+      .openPopup();
+    } else {
+      L.marker([lat, lon]).addTo(map)
+      .bindPopup(`${a}, ${c}, ${b}`)
+      .openPopup();
+    }
   }
 
   return (
