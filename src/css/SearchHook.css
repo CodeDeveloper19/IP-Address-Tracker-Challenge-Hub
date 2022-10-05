@@ -74,8 +74,8 @@
     min-width: 300px;
     display: flex;
     flex-direction: row;
-    position: absolute; /**/
-    top: 70px; /**/
+    position: absolute;
+    top: 70px;
 }
 
 #form input{
@@ -83,6 +83,7 @@
     border: none;
     outline: none;
 }
+
 
 #text{
     width: 88%;
@@ -94,8 +95,16 @@
 #submit{
     width: 12%;
     border-radius: 0 15px 15px 0;
+    border: none;
     background: black url(../Images/icon-arrow.svg) no-repeat center;
-    color: transparent;
+}
+
+#submit:hover{
+    background: rgba(0, 0, 0, 0.7) url(../Images/icon-arrow.svg) no-repeat center;
+}
+
+#text:hover, #submit:hover{
+    cursor: pointer;
 }
 
 .title{

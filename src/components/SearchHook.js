@@ -56,27 +56,16 @@ export default function SearchHook() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false)
     fetchData("");
   }, [])
 
   const SearchForAddressOrDomain = (e) => {
     e.preventDefault();
     let tempvalue = document.getElementById("text").value;
-    let value;
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(tempvalue)){
-      value = `&ip=${tempvalue}`;
-      lookForValidIPAddress(value);
+      lookForValidIPAddress(`&ip=${tempvalue}`);
     } else if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(tempvalue)) {
-      fetch(`/api/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
-      .then(response => response.json())
-      .then(data => {
-        rewriteInfo(data.isp, data.query, "--:--", data.regionName, data.country, data.city);
-        setMap(data.lat, data.lon, data.regionName, data.country, data.city);
-      })
-      .catch(error => {
-        console.log(error.message);
-      })
+      lookForValidDomain(tempvalue);
     } else {
       alert('Invalid Email Address or Domain Name');
     }
@@ -85,6 +74,19 @@ export default function SearchHook() {
   const lookForValidIPAddress = (value) => {
     setLoading(true);
     fetchData(value);
+  }
+
+  const lookForValidDomain = (tempvalue) => {
+    setLoading(true);
+    fetch(`/api/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
+    .then(response => response.json())
+    .then(data => {
+      rewriteInfo(data.isp, data.query, "--:--", data.regionName, data.country, data.city);
+      setMap(data.lat, data.lon, data.regionName, data.country, data.city);
+    })
+    .catch(error => {
+      console.log(error.message);
+    })
   }
 
   const fetchData = (ipaddress) => {
@@ -126,17 +128,25 @@ export default function SearchHook() {
     }
   }
 
+  var blackIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/CodeDeveloper19/ip-address-tracker-challenge-hub/main/src/Images/icon-location.svg',
+    iconSize: [35, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [6, -39],
+  });
+
+
   const SetMapPerform = (lat, lon, a, b, c) => {
     map = L.map('map').setView([lat, lon], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);  
     if (a === ""){
-      L.marker([lat, lon]).addTo(map)
+      L.marker([lat, lon], {icon: blackIcon}).addTo(map)
       .bindPopup(`${c}, ${b}`)
       .openPopup();
     } else {
-      L.marker([lat, lon]).addTo(map)
+      L.marker([lat, lon], {icon: blackIcon}).addTo(map)
       .bindPopup(`${a}, ${c}, ${b}`)
       .openPopup();
     }
@@ -156,7 +166,7 @@ export default function SearchHook() {
         <h1 className='title'>IP Address Tracker</h1>
         <form id='form'>
           <input type={"text"} id='text' placeholder={'Search for any IP address or domain'}/>
-          <input type={"submit"} id='submit' onClick={SearchForAddressOrDomain}/>
+          <button id='submit' onClick={SearchForAddressOrDomain}/>
         </form>
         <DataHook info={info}/>
       </div>
