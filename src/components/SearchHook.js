@@ -68,7 +68,7 @@ export default function SearchHook() {
       value = `&ip=${tempvalue}`;
       lookForValidIPAddress(value);
     } else if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(tempvalue)) {
-      fetch(`http://ip-api.com/json/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
+      fetch(`/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
       .then(response => response.json())
       .then(data => {
         rewriteInfo(data.isp, data.query, "--:--", data.regionName, data.country, data.city);
