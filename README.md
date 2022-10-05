@@ -1,12 +1,39 @@
-# Ip Address Tracker Challenge by Frontend Mentor
+# Frontend Mentor - IP address tracker solution
+
+This is a solution to the [IP address tracker challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/ip-address-tracker-I8-0yYAH0). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
+
+## Table of contents
+
+- [Live Site](#live-site)
+- [Getting Started With Create React App](#getting-started-with-create-react-app)
+  - [npm install create-react-app my-app](#npm-install-create-react-app-my-app)
+- [Available Scripts](#available-scripts)
+  - [npm start](#npm-start)
+  - [npm test](#npm-test)
+  - [npm run build](#npm-run-build)
+  - [npm run eject](#npm-run-eject)
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
 ## Live Site
 
 You can see the web application live by visiting [here](https://ip-address-web-tracker.netlify.app)
 
-# Getting Started with Create React App
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+### `npm install create-react-app my-app`
+You run the above in your code editor's terminal after cloning this repo from GitHub. Before running the above, ensure you mount the parent directory of this repo so that react can successfully install in the right directory.
 
 ## Available Scripts
 
@@ -45,32 +72,77 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+**Note: Delete this note and update the table of contents based on what sections you keep.**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Overview
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### The challenge
 
-### Code Splitting
+Users should be able to:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- View the optimal layout for each page depending on their device's screen size
+- See hover states for all interactive elements on the page
+- See their own IP address on the map on the initial page load
+- Search for any IP addresses or domains and see the key information and location
 
-### Analyzing the Bundle Size
+### Screenshot
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![](https://res.cloudinary.com/dz209s6jk/image/upload/q_auto,w_900,f_auto/Screenshots/klbglgt05epjnfjr0drt.jpg)
 
-### Making a Progressive Web App
+### Links
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Solution URL: [IP Address Web Tracker](https://www.frontendmentor.io/solutions/ip-address-tracker-built-with-react-ajWB03HpMn)
+- Live Site URL: [IP Address Web Tracker](https://ip-address-web-tracker.netlify.app/)
 
-### Advanced Configuration
+## My process
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Built with
 
-### Deployment
+- Semantic HTML5 markup
+- CSS custom properties
+- Flexbox
+- CSS Grid
+- [React](https://reactjs.org/) - JS library  
+- [IP-API](https://ip-api.com/) - An IP Address Tracker API
+- [IP GeoLocation](https://app.ipgeolocation.io/) - An IP Address Tracker API
+- [Leaflet JS](https://leafletjs.com/reference.html) - an open-source JavaScript library
+for mobile-friendly interactive maps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### What I learned
+```css
+/*Importing CSS files to the App.css file in React*/
+    @import "MapHook.css"
+```
+```js
+/*Inserting a desired character or string in-between a string...in this case ";"*/
+      let timeZone;
+      let tempTimeZone = data.time_zone.current_time.slice(-5);
+      timeZone = [tempTimeZone.slice(0, 3), ":", tempTimeZone.slice(3)].join('');
+```
+```
+      Making and creating a "_redirects" file to help solve the issue of serving http content over a https which eventually throws a CORBS error. 
+      This is only applicable to netlify
+      
+      - Place the _redirects file in the root of the whole application folder or public folder if you are using React.
+      - In the _redirects file, write, 
+      "/api/* http://addressofapi.com/json/:splat 200!"
+      - In the fetch function or function handling the api calling, replace the "http://addressofapi.com/json" with "api"..which was the name given in the _redirects file..it can be any name by the way..not necessarily "api".
+```
+```js
+    /*The use of Regex (Regular Expressions) in loops or control flow statements such as "if" as conditions*/
+    if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(tempvalue)){ 
+        //Regex for validating IP addresses
+        lookForValidIPAddress(`&ip=${tempvalue}`);
+    } else if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(tempvalue)) { 
+        //Regex for validating Domain names 
+        lookForValidDomain(tempvalue);
+    } else {
+        alert('Invalid Email Address or Domain Name');
+    }
+```
 
-### `npm run build` fails to minify
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Website - [Okoli Akachukwu](https://www.linkedin.com/in/okoli-akachukwu-6b321b178/)
+- Frontend Mentor - [@CodeDeveloper19](https://www.frontendmentor.io/profile/CodeDeveloper19)
+

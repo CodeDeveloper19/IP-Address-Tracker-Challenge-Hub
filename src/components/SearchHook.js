@@ -78,7 +78,7 @@ export default function SearchHook() {
 
   const lookForValidDomain = (tempvalue) => {
     setLoading(true);
-    fetch(`/api/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`)
+    fetch(`/api/${tempvalue}?fields=country,regionName,city,lat,lon,isp,query`) // Change the url before the tempvalue to "/api/" before uploading to GitHub to activate the redirects on netlify
     .then(response => response.json())
     .then(data => {
       rewriteInfo(data.isp, data.query, "--:--", data.regionName, data.country, data.city);
