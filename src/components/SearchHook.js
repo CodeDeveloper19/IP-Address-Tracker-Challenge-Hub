@@ -106,7 +106,7 @@ export default function SearchHook() {
 
   const rewriteInfo = (a, b, c, d, e, f) => {
     newInfo[3].value = a;
-    newInfo[2].value = c;
+    newInfo[2].value = `UTC ${c}`;
     if (d === ""){
       newInfo[1].value = `${f}, ${e}`;
     } else {
