@@ -22,7 +22,7 @@ This is a solution to the [IP address tracker challenge on Frontend Mentor](http
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
+- [Future Adjustments](#future-adjustments)
 
 ## Live Site
 
@@ -145,4 +145,8 @@ for mobile-friendly interactive maps
 
 - Website - [Okoli Akachukwu](https://www.linkedin.com/in/okoli-akachukwu-6b321b178/)
 - Frontend Mentor - [@CodeDeveloper19](https://www.frontendmentor.io/profile/CodeDeveloper19)
+
+## Future Adjustments
+
+- Add a function or useState that checks for changes in height of the top-part (class) div from 300px to below. As a result of the media query that converts it 300px to a max-height of 45% at screen width of 1000px and below. With this change in height, the height of the map (id) div is affected on screen heights that are viewed on 50% on chrome inspect. It is recommended that with the above function or useState, the height of the map (id) div is changed from 'calc(100vh - 300px)' to 'calc(100vh - 45vh)'.
 
